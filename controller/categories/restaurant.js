@@ -117,6 +117,44 @@ exports.addComment = async (req,res, next) => {
     });
   }
   
+
+  exports.addReview= async (req,res,next)=>{
+      const user = await User.findById(req.body.id);
+      const restaurant= await Restaurant.findById(req.params.id);
+      
+      console.log(user);
+      console.log(restaurant);
+
+
+      let  userName = function(){
+        let localName = user.local.name;
+        if (localName == null) return user.google.name;
+        else return localName
+    }
+
+      const review = restaurant.review;
+       /*if(review.find(user)){
+           return res.send('cant rate again')
+       } */
+       //else{
+           review.push({
+               "name":userName(),
+               "id":req.body.id,
+               "rate":req.body.rate,
+           })
+
+           await restaurant.save();
+
+           res.status(200).json({
+               "status":true,
+               "message": "success",
+               "data":review
+           })
+      // }
+
+  }
+
+
   exports.getRestaurantComments = async (req, res, next) => {
     const restaurant = await Restaurant.findById(req.params.restaurantId);
     res.status(200).json({

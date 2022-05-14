@@ -1,5 +1,6 @@
 const mongoose=  require('mongoose');
 const Joi= require('joi');
+const { object } = require('joi');
 
 
 const restaurantSchema= mongoose.Schema({
@@ -13,6 +14,7 @@ const restaurantSchema= mongoose.Schema({
     lat:Number,
     lng:Number,
     comment : [Object],
+    review: [Object],
     city:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'City'

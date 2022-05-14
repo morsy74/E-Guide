@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 
 const reviewSchema= new  mongoose.Schema({
 
-  /*  title:{
+    title:{
         type:String,
 
-    },*/
+    },
 
     ratings:{
         type:Number,
@@ -18,10 +18,6 @@ const reviewSchema= new  mongoose.Schema({
         type: mongoose.Types.ObjectId,
 
     },
-/*    user:{
-        type:mongoose.Types.ObjectId,
-        ref:'User',
-    },*/
 
     Cafes: {
         type: mongoose.Types.ObjectId,

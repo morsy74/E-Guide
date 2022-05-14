@@ -8,15 +8,16 @@ exports.addReviewsInRestaurant= async (req,res,next)=>{
         message:"can't send review you must login"
     });
 
-    let Restaurant = await Review.findById (req.body.id)
-    if(!Restaurant)return res.json({
+    let Restaurant = await Review.findById(req.body.id);
+   if(Restaurant)return res.json({
         status:"true",
         message:"YOU CAN'T COMMENT AGAIN"
     });
     let Reviews = new Review({
         UserId:req.params.id,
        Restaurants:req.body.id,
-        ratings:req.body.rate,
+       title:req.body.title,
+        ratings:req.body.ratings,
     });
 
     Reviews= await Reviews.save();
