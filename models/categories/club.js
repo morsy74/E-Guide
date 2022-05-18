@@ -20,7 +20,7 @@ const clubSchema = new mongoose.Schema({
     required: true
   },
   picture: {
-    type: String
+    type: [String]
   },
   lat: {
     type: Number,
@@ -58,7 +58,7 @@ function validateClub(club){
       picture: Joi.string(),
       lng: Joi.number().required(),
       lat: Joi.number().required(),
-      city:Joi.objectId().min(20).max(50).required()
+      city:Joi.required()
   });
 
   return schema.validate(club);

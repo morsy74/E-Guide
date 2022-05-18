@@ -4,6 +4,7 @@ const _ = require('lodash');
 const mongoose = require('mongoose');
 const { Club, validate } = require('../../models/categories/club');
 const {User}= require('../../models/user/user');
+const lodash = require('lodash');
 
 exports.showAllClubs = async (req, res, next) => {
   const club = await Club.find().sort('name').select("-comment");
@@ -111,4 +112,18 @@ exports.getClubComments = async (req, res, next) => {
       "message": "success",
       "data": club.comment
   });
+}
+
+exports.addRate = async (req, res, next) =>{
+  const club = await Club.findById(req.params.clubId);
+
+  
+  let userRate = club.userRate;
+  userRate.push(5);
+
+  let rateSum = lodash.sum(userRate);
+  let rate = "5"
+  club.rate = rate;
+  await club.save();
+  res.send(club)
 }
