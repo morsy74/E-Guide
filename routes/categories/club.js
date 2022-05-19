@@ -10,5 +10,6 @@ router.delete('/deleteClub/:id', [auth, admin], clubController.deleteClub);
 router.get('/showAllClubs', clubController.showAllClubs);
 router.post('/:clubId',clubController.addComment);
 router.get('/comments/:clubId',clubController.getClubComments);
+router.post('/addRate/:clubId',clubController.addRate);
 
 module.exports = router;

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Joi = require('joi');
 
 
-const schema = mongoose.Schema({
+const citySchema = mongoose.Schema({
     name:String,
     area:String,
     population:String,
@@ -13,15 +13,16 @@ const schema = mongoose.Schema({
     comment : [Object]
 });
 
-schema.set('toJSON', {
+citySchema.set('toJSON', {
     transform: function (doc, ret, options) {
         ret.id = ret._id;
         delete ret._id;
         delete ret.__v;
     }
-  });
+  
+});
 
-const City = mongoose.model('City', schema);
+const City = mongoose.model('City', citySchema);
 
 
 function validateCity(city) {
