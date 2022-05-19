@@ -15,6 +15,7 @@ const restaurantSchema= mongoose.Schema({
     lng:Number,
     comment : [Object],
     review: [Object],
+    offer:[],
     city:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'City'
@@ -31,6 +32,18 @@ restaurantSchema.set('toJSON', {
 
 const Restaurant = mongoose.model('Restaurant', restaurantSchema);
 
+offerSchema= mongoose.Schema({
+    name:String,
+    restaurant:restaurantSchema,
+    user:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
+    }
+});
+
+
+const Offer=mongoose.model('Offer',offerSchema);
+
 function validateRestaurant(restaurant){
 
     const schema= Joi.object({
@@ -43,11 +56,13 @@ function validateRestaurant(restaurant){
         workTime:Joi.string().min(7).max(10).required(),
         lat:Joi.number().required(),
         lng:Joi.number().required(),
-        city:Joi.required()
+        city:Joi.required(),
+        offer:Joi.string(),
     });
 
     return schema.validate(restaurant);
 }
 
 exports.Restaurant=Restaurant;
+exports.Offer=Offer;
 exports.validateRestaurant=validateRestaurant;

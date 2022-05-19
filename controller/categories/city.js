@@ -51,6 +51,11 @@ exports.editCity= async function (req,res,next){
             area:req.body.area,
             population:req.body.population,
             touristPlaces:req.body.touristPlaces,
+            pic:req.body.pic,
+            aboutTheCity:req.body.aboutTheCity,
+            lng:req.body.lng,
+            lat:req.body.lat,
+
         }},{ new:true });
     
     city= await city.save();     

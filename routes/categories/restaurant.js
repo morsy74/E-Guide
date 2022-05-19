@@ -9,5 +9,7 @@ router.put('/:id',rest.putRest);
 router.delete('/:id',rest.deleteRest);
 router.post('/:restaurantId',rest.addComment);
 router.post('/reviews/:id',rest.addReview);
+router.post('/getOffer/:id',rest.addGetOffer);
+router.get('/getOffer/:id',rest.GetOffer);
 router.get('/comments/:restaurantId',rest.getRestaurantComments);
 module.exports=router;

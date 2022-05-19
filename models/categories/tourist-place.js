@@ -5,7 +5,7 @@ const touristPlaceSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    maxLength: 50
+    maxLength: 100
   },
   description:{
     type: String
@@ -18,12 +18,17 @@ const touristPlaceSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  rate: {
+    type: String,
+    required:true
+  },
   price: {
     type: String,
     required: true
   },
   picture: {
-    type: String
+    type: [String],
+    required:true
   },
   lat: {
     type: Number,
@@ -54,15 +59,16 @@ const Tourist = mongoose.model('Tourist', touristPlaceSchema);
 function validateTourist(tourist){
 
   const schema = Joi.object({ 
-      name: Joi.string().max(50).required(),
+      name: Joi.string().max(100).required(),
       address: Joi.string().required(),
       description: Joi.string(),
       workTime: Joi.string().required(),
+      rate:Joi.string().required(),
       price: Joi.string().required(),
-      picture: Joi.string(),
+      picture: Joi.required(),
       lng: Joi.number().required(),
       lat: Joi.number().required(),
-      city:Joi.objectId().min(20).max(50).required()
+      city:Joi.required()
   });
 
   return schema.validate(tourist);

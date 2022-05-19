@@ -42,7 +42,7 @@ exports.addClub = async (req, res, next) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   let club = new Club(_.pick(req.body,
-    ['name', 'address', 'workTime', 'price', 'picture', 'lat', 'lng', 'city']));
+    ['name', 'address', 'workTime', 'price', 'rate','picture', 'lat', 'lng', 'city']));
   
     await club.save();
     res.send(club)
