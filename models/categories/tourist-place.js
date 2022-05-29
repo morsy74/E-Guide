@@ -26,7 +26,7 @@ const touristPlaceSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  picture: {
+  pic: {
     type: [String],
     required:true
   },
@@ -41,7 +41,7 @@ const touristPlaceSchema = new mongoose.Schema({
   comment : [Object],
   city: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'city',
+    ref: 'City',
     required: true
   }
 });
@@ -65,7 +65,7 @@ function validateTourist(tourist){
       workTime: Joi.string().required(),
       rate:Joi.string().required(),
       price: Joi.string().required(),
-      picture: Joi.required(),
+      pic: Joi.required(),
       lng: Joi.number().required(),
       lat: Joi.number().required(),
       city:Joi.required()

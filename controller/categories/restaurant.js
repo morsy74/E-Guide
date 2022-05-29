@@ -1,7 +1,7 @@
 const { Restaurant, Offer, validateRestaurant } = require('../../models/categories/restaurant');
 const { User } = require('../../models/user/user');
 const _ = require('lodash');
-const { rest } = require('lodash');
+const { rest, result } = require('lodash');
 
 exports.getRest = async function (req, res, next) {
 
@@ -51,7 +51,7 @@ exports.postRest = async function (req, res, next) {
     let rest = await Restaurant.findOne({ name: req.body.name, lat: req.body.lat, lng: req.body.lng });
     if (rest) return res.status(400).send('this restaurant is already here');
     rest = new Restaurant(_.pick(req.body,
-        ['name', 'address', 'pic', 'menu', 'rate', 'workTime', 'cuisineType', 'city', 'lat', 'lng']));
+        ['name', 'address', 'pic', 'menu', 'workTime', 'cuisineType', 'city', 'lat', 'lng']));
     rest = await rest.save();
     res.send(rest);
     next();
@@ -120,12 +120,10 @@ exports.addComment = async (req, res, next) => {
 
 
 exports.addReview = async (req, res, next) => {
-    const user = await User.findById(req.body.id);
+    const user = await User.findById(req.body.userId);
     const restaurant = await Restaurant.findById(req.params.id);
-
-    console.log(user);
-    console.log(restaurant);
-
+    const review = restaurant.review;
+    //console.log(user);
 
     let userName = function () {
         let localName = user.local.name;
@@ -133,27 +131,67 @@ exports.addReview = async (req, res, next) => {
         else return localName
     }
 
-    const review = restaurant.review;
-    /*if(review.find(user)){
-        return res.send('cant rate again')
-    } */
-    //else{
-    review.push({
-        "name": userName(),
-        "id": req.body.id,
-        "rate": req.body.rate,
-    })
 
-    await restaurant.save();
+    let result = review.find((rev) => rev.UserId == req.body.userId)
+    if (result) {
+        //console.log(result);
+        return res.send('cannot send again');
+    } else {
+        review.push({
+            "name": userName(),
+            "UserId": req.body.userId,
+            "rate": req.body.rate,
+            "comment": req.body.comment,
+        })
+        
+        await restaurant.save();
+
+       restaurant.rate= review.reduce((total, num) => {
+        return  rating = Math.round(total + (num.rate / review.length));
+        //if(rating>5)return rating=5;
+
+    },0);
+    console.log(restaurant.rate);
+   
+await restaurant.save();
+        // second true solution
+        /*const findAverage=(arr)=>{
+            return arr.reduce((acc,val)=>{
+                return acc + (val.rate/arr.length);
+
+            },0) 
+        };
+
+        console.log(findAverage(review));
+*/
+
+
+        /*        var arr = [1, 2, 3, 4]
+        function sumOfArr(total, current) {
+            return total + current / arr.length;
+        }
+
+        var sum = arr.reduce(sumOfArr)
+        console.log('sum of arr is', sum);
+*/
+
+        //console.log(rate);
+
+
+    }
+
+
+
 
     res.status(200).json({
         "status": true,
         "message": "success",
         "data": review
     })
-    // }
+
 
 }
+
 
 exports.addGetOffer = async (req, res, next) => {
     const user = await User.findById(req.params.id);
@@ -165,14 +203,14 @@ exports.addGetOffer = async (req, res, next) => {
     console.log(user);
     console.log(restaurant);
 
-     restaurant.offer.push({
+    restaurant.offer.push({
         name: req.body.name,
         restaurant: req.body.id,
         //user: req.params.id,
-        UserId:req.params.id
+        UserId: req.params.id
     });
 
-    restaurant =await restaurant.save();
+    restaurant = await restaurant.save();
 
     res.status(200).json({
         "status": true,
@@ -182,11 +220,11 @@ exports.addGetOffer = async (req, res, next) => {
 }
 
 
-exports.GetOffer = async (req,res,next)=>{
-    
-    const rest= await Restaurant.findById(req.params.id)
-    .populate("offer.restaurant","name -_id")
-    .populate("offer.UserId.local"," name - _id");
+exports.GetOffer = async (req, res, next) => {
+
+    const rest = await Restaurant.findById(req.params.id)
+        .populate("offer.restaurant", "name -_id")
+        .populate("offer.UserId.local", " name - _id");
     //console.log(rest);
     const offer1 = rest.offer
 

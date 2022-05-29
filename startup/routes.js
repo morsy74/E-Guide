@@ -19,7 +19,6 @@ const wishlist= require('../routes/wishlist');
 const home = require('../routes/home');
 const search = require('../routes/search');
 const nearby = require('../routes/nearby');
-const review = require('../routes/review');
 
 module.exports = function(app){
   app.use(express.json());
@@ -42,8 +41,7 @@ module.exports = function(app){
   app.use("/api/home",home);
   app.use("/api/search",search);
   app.use("/api/nearby",nearby);
-  app.use("/api/restaurant",review);
-
+  
   if (app.get('env') === 'development') {
     app.use(logging);
     app.use(morgan('tiny'));

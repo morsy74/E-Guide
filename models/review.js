@@ -1,22 +1,23 @@
 const mongoose = require('mongoose');
 
-const reviewSchema= new  mongoose.Schema({
+const reviewSchema = new mongoose.Schema({
 
-    title:{
-        type:String,
+
+    rate: {
+        type: Number,
+        min: [1, 'min ratings is 1.0'],
+        max: [5, 'max ratings is 5.0'],
 
     },
-
-    ratings:{
-        type:Number,
-        min:[1,'min ratings is 1.0'],
-        max:[5,'max ratings is 5.0'],
-        
+    comment: {
+        type: String,
+    },
+    numOfRate: {
+        type: Number,
     },
 
     UserId: {
-        type: mongoose.Types.ObjectId,
-
+        type:mongoose.Schema.Types.ObjectId,
     },
 
     Cafes: {
@@ -25,7 +26,7 @@ const reviewSchema= new  mongoose.Schema({
     },
 
     Restaurants: {
-        type: mongoose.Types.ObjectId,
+        type:mongoose.Schema.Types.ObjectId,
         ref: 'Restaurant'
     },
 
@@ -49,17 +50,17 @@ const reviewSchema= new  mongoose.Schema({
         ref: 'Club'
     },
 
-    City:{
+    City: {
         type: mongoose.Types.ObjectId,
-        ref:'City'
+        ref: 'City'
     },
 
-    Bus:{
+    Bus: {
         type: mongoose.Types.ObjectId,
-        ref:'BusStation'
+        ref: 'BusStation'
     }
 
-    
+
 });
 
 
@@ -71,7 +72,7 @@ const reviewSchema= new  mongoose.Schema({
     }
   });
 */
-  
+
 const Review = mongoose.model('Reviews', reviewSchema);
 
 exports.Review = Review

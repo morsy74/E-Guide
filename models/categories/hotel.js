@@ -23,7 +23,10 @@ const hotelSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  picture: {
+  rate:{
+    type:String,
+  },
+  pic: {
     type: String
   },
   lat: {
@@ -60,7 +63,7 @@ function validateHotel(hotel){
       roomsNumbers: Joi.number().required(),
       singlePrice: Joi.string().required(),
       doublePrice: Joi.string().required(),
-      picture: Joi.string(),
+      pic: Joi.string(),
       lat: Joi.number().required(),
       lng: Joi.number().required(),
       city:Joi.objectId().min(20).max(50).required()
