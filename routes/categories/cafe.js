@@ -10,5 +10,5 @@ router.put('/:id',cafe.updateCafe);
 router.delete('/:id',cafe.deleteCafe);
 router.post('/:cafeId',cafe.addComment);
 router.get('/comments/:cafeId',cafe.getCafeComments);
-
+router.post('/:id/review',cafe.addCafeReview);
 module.exports=router;

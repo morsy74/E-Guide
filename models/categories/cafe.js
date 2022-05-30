@@ -1,17 +1,33 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
+const { object } = require('joi');
 
+reviewSchema=mongoose.Schema({
+
+    name:String,
+    rate: Number,
+    date:Date,
+    comment:String,
+    UserId: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
+    }
+})
 
 cafeSchema= mongoose.Schema({
     name:String,
     address:String,
-    rate:String,
+    rate: {
+        type: Number,
+        default:0
+      },
     workTime:String,
     pic:[String],
     menu:[String],
     lat:Number,
     lng:Number,
     comment : [Object],
+    review:[reviewSchema],
     city:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'City'
@@ -33,7 +49,6 @@ function validateCafe(cafe){
     const schema= Joi.object({
         name:Joi.string().min(3).max(100).required(),
         address:Joi.string().min(3).required(),
-        rate:Joi.required(),
         pic:Joi.required(),
         menu:Joi.required(),
         workTime:Joi.string().min(7).max(10).required(),

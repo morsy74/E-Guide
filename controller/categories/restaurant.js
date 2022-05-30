@@ -147,7 +147,7 @@ exports.addReview = async (req, res, next) => {
         await restaurant.save();
 
        restaurant.rate= review.reduce((total, num) => {
-        return  rating = Math.round(total + (num.rate / review.length));
+        return  rating = Math.round((total + (num.rate / review.length))*10)/10;
         //if(rating>5)return rating=5;
 
     },0);
