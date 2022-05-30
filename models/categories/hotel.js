@@ -1,6 +1,18 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
 
+reviewSchema=mongoose.Schema({
+
+  name:String,
+  rate: Number,
+  date:Date,
+  comment:String,
+  UserId: {
+      type: mongoose.Types.ObjectId,
+      ref: 'User'
+  }
+})
+
 const hotelSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -24,10 +36,11 @@ const hotelSchema = new mongoose.Schema({
     required: true
   },
   rate:{
-    type:String,
+    type:Number,
+    default:0
   },
   pic: {
-    type: String
+    type: [String]
   },
   lat: {
     type: Number,
@@ -38,6 +51,7 @@ const hotelSchema = new mongoose.Schema({
     required: true
   },
   comment : [Object],
+  review:[reviewSchema],
   city: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'city',

@@ -113,3 +113,49 @@ exports.getHotelComments = async (req, res, next) => {
       "data": hotel.comment
   });
 }
+
+
+exports.addHotelReview= async(req,res,next)=>{
+  const user = await User.findById(req.body.userId);
+  if(!user)return res.send("can't send review must login");
+  const hotel = await Hotel.findById(req.params.id);
+  const review = hotel.review;
+  
+ let result= review.find((rev)=> rev.UserId==req.body.userId )
+ if(result){
+ console.log(result);
+ return res.send("can't send review again ")
+}else{
+
+  let userName = function () {
+      let localName = user.local.name;
+      if (localName == null) return user.google.name;
+      else return localName
+  }
+
+     review.push({
+     
+          "name": userName(),
+          "UserId": req.body.userId,
+          "rate": req.body.rate,
+          "comment": req.body.comment,    
+     })
+
+     hotel.rate= review.reduce((total, num) => {
+      return  rating = Math.round((total + (num.rate / review.length))*10)/10;
+      //if(rating>5)return rating=5;
+
+  },0);
+  console.log(hotel.rate);
+ 
+     await hotel.save();
+ }
+
+
+ res.status(200).json({
+  "status": true,
+  "message": "success",
+  "data": review
+})
+
+}

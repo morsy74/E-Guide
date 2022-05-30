@@ -10,5 +10,6 @@ router.delete('/deleteHotel/:id', [auth, admin], hotelController.deleteHotel);
 router.get('/showAllHotels', hotelController.showAllHotels);
 router.post('/:hotelId',hotelController.addComment);
 router.get('/comments/:clubId',hotelController.getHotelComments);
+router.post('/:id/review',hotelController.addHotelReview);
 
 module.exports = router;
