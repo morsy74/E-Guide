@@ -38,10 +38,10 @@ exports.forgotPassword = async (req, res, next) => {
       user.local.name
       );
 
-      res.json({
-        "status": true,
-        "message": "Verify code is sent to your email account"
-      });
+    res.json({
+      "status": true,
+      "message": "Verify code is sent to your email account"
+    });
   } catch (error) {
     console.log(error);
   }

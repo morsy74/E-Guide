@@ -25,7 +25,7 @@ const userSchema = new Schema({
       minLength: 5,
       maxLength: 1024
     },
-    phone: {
+    token: {
       type: String,
     },   
     isAdmin: Boolean
@@ -75,7 +75,7 @@ function validateUser(user){
     name: Joi.string().min(5).max(50).required(),
     email: Joi.string().min(5).max(255).required().email(),
     password: Joi.string().min(5).max(255).required(),
-    isAdmin: Joi.boolean()
+    confirmPassword: Joi.string().min(5).max(255).required()
   }); 
   return schema.validate(user);
 };
