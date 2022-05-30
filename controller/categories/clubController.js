@@ -127,3 +127,47 @@ exports.addRate = async (req, res, next) =>{
   await club.save();
   res.send(club)
 }
+
+exports.addClubReview= async(req,res,next)=>{
+  const user = await User.findById(req.body.userId);
+  if(!user)return res.send("can't send review must login");
+  const club = await Club.findById(req.params.id);
+  const review = club.review;
+  
+ let result= review.find((rev)=> rev.UserId==req.body.userId )
+ if(result)return res.send("can't send review again ")
+ else{
+
+  let userName = function () {
+      let localName = user.local.name;
+      if (localName == null) return user.google.name;
+      else return localName
+  }
+
+     review.push({
+     
+          "name": userName(),
+          "UserId": req.body.userId,
+          "rate": req.body.rate,
+          "comment": req.body.comment,    
+     })
+
+     club.rate= review.reduce((total, num) => {
+      return  rating = Math.round((total + (num.rate / review.length))*10)/10;
+      //if(rating>5)return rating=5;
+
+  },0);
+  console.log(club.rate);
+ 
+     await club.save();
+ }
+
+
+ res.status(200).json({
+  "status": true,
+  "message": "success",
+  "data": review
+})
+
+
+}

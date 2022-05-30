@@ -11,5 +11,5 @@ router.get('/showAllClubs', clubController.showAllClubs);
 router.post('/:clubId',clubController.addComment);
 router.get('/comments/:clubId',clubController.getClubComments);
 router.post('/addRate/:clubId',clubController.addRate);
-
+router.post('/:id/review',clubController.addClubReview);
 module.exports = router;

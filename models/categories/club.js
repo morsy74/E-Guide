@@ -1,6 +1,18 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
 
+
+const reviewSchema = mongoose.Schema({
+  name:String,
+  rate: Number,
+  date:Date,
+  comment:String,
+  UserId: {
+      type: mongoose.Types.ObjectId,
+      ref: 'User'
+  }
+});
+
 const clubSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -16,8 +28,8 @@ const clubSchema = new mongoose.Schema({
     required: true
   },
   rate:{
-    type: String,
-    required:true
+    type:Number,
+    default:0
   },
   price: {
     type: String,
@@ -35,6 +47,7 @@ const clubSchema = new mongoose.Schema({
     required: true
   },
   comment : [Object],
+  review:[reviewSchema],
   city: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'city',

@@ -10,5 +10,6 @@ router.delete('/deleteTouristPlace/:id', [auth, admin], touristController.delete
 router.get('/showAllTouristPlaces', touristController.showAllTourists);
 router.post('/:touristId',touristController.addComment);
 router.get('/comments/:touristId',touristController.getTouristComments);
+router.post('/:id/review',touristController.addTouristReview);
 
 module.exports = router;

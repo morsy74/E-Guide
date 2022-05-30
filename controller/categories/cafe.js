@@ -125,10 +125,7 @@ exports.addCafeReview= async(req,res,next)=>{
     const user = await User.findById(req.body.userId);
     if(!user)return res.send("can't send review must login");
     const cafe = await Cafe.findById(req.params.id);
-    console.log(Cafes);
     const review = cafe.review;
-
-
     
    let result= review.find((rev)=> rev.UserId==req.body.userId )
    if(result){
@@ -162,10 +159,10 @@ exports.addCafeReview= async(req,res,next)=>{
 
 
    res.status(200).json({
-    "status": true,
-    "message": "success",
-    "data": review
-})
+        "status": true,
+        "message": "success",
+        "data": review
+    })
 
 
 }
