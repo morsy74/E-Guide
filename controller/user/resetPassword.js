@@ -18,7 +18,7 @@ exports.verifyCodeAndResetPass = async (req, res, next) => {
     });
 
     let token = await Token.findOne({token: req.body.token});
-     if(!token) return res.status(404).json({
+    if(!token) return res.status(404).json({
       "status": false,
       "message": "This code is not correct!...."
     });
