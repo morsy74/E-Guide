@@ -9,6 +9,8 @@ router.put('/:id',rest.putRest);
 router.delete('/:id',rest.deleteRest);
 router.post('/:restaurantId',rest.addComment);
 router.post('/:id/review',rest.addReview);
+router.delete('/:id/review',rest.deleteReviewFromRestaurant);
+
 router.post('/getOffer/:id',rest.addGetOffer);
 router.get('/getOffer/:id',rest.GetOffer);
 router.get('/comments/:restaurantId',rest.getRestaurantComments);

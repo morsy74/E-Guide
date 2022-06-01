@@ -42,7 +42,7 @@ exports.addHotel = async (req, res, next) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   let hotel = new Hotel(_.pick(req.body,
-    ['name', 'address', 'roomsNumbers', 'singlePrice', 'doublePrice', 'picture', 'lat', 'lng', 'city']));
+    ['name', 'address', 'roomsNumbers', 'singlePrice', 'doublePrice', 'pic', 'lat', 'lng', 'city']));
   
     await hotel.save();
     res.send(hotel)
@@ -59,7 +59,7 @@ exports.editHotel = async (req, res, next) =>{
     roomsNumber: req.body.roomsNumber,
     singlePrice: req.body.singlePrice,
     doublePrice: req.body.doublePrice,
-    picture: req.body.picture,
+    pic: req.body.pic,
     lat: req.body.lat,
     lng: req.body.lng,
     city: req.body.city

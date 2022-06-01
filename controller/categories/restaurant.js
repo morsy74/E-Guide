@@ -143,17 +143,33 @@ exports.addReview = async (req, res, next) => {
             "rate": req.body.rate,
             "comment": req.body.comment,
         })
-        
+
         await restaurant.save();
 
-       restaurant.rate= review.reduce((total, num) => {
-        return  rating = Math.round((total + (num.rate / review.length))*10)/10;
-        //if(rating>5)return rating=5;
+        restaurant.rate = review.reduce((total, num) => {
+            return rating = Math.round((total + (num.rate / review.length)) * 10) / 10;
+            //if(rating>5)return rating=5;
 
-    },0);
-    console.log(restaurant.rate);
-   
-await restaurant.save();
+        }, 0);
+        console.log(restaurant.rate);
+
+        await restaurant.save();
+
+    }
+
+
+
+
+    res.status(200).json({
+        "status": true,
+        "message": "success",
+        "data": review
+    })
+
+
+}
+
+
         // second true solution
         /*const findAverage=(arr)=>{
             return arr.reduce((acc,val)=>{
@@ -177,17 +193,19 @@ await restaurant.save();
 
         //console.log(rate);
 
+exports.deleteReviewFromRestaurant = async (req, res, next)=>{
+    const restaurant = await Restaurant.findById(req.params.id);
+    console.log(restaurant);
+    review = restaurant.review;
+    console.log('review is',review);
+    element = review.find((rev) => rev.UserId == req.body.userId)
+    console.log('element is',element);
+   if(!element)return res.status(404).send('User Review Not Found')
+    element1 = review.id(req.body.id).remove();
+    console.log('delete review is',element1);
+    await restaurant.save();
 
-    }
-
-
-
-
-    res.status(200).json({
-        "status": true,
-        "message": "success",
-        "data": review
-    })
+    res.send('success review deleted');
 
 
 }

@@ -26,6 +26,7 @@ cafeSchema= mongoose.Schema({
     menu:[String],
     lat:Number,
     lng:Number,
+    cuisineType: String,
     comment : [Object],
     review:[reviewSchema],
     city:{
@@ -51,6 +52,7 @@ function validateCafe(cafe){
         address:Joi.string().min(3).required(),
         pic:Joi.required(),
         menu:Joi.required(),
+        cuisineType: Joi.string().required(),
         workTime:Joi.string().min(7).max(10).required(),
         lat:Joi.number().required(),
         lng:Joi.number().required(),

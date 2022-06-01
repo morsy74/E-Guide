@@ -72,7 +72,6 @@ function validateClub(club){
       address: Joi.string().required(),
       workTime: Joi.string().required(),
       price: Joi.string().required(),
-      rate: Joi.string().required(),
       pic: Joi.required(),
       lng: Joi.number().required(),
       lat: Joi.number().required(),
