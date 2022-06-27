@@ -2,12 +2,9 @@ const mongoose = require('mongoose');
 const Joi = require('joi');
 const { object } = require('joi');
 
-reviewSchema=mongoose.Schema({
-
-    name:String,
+const reviewSchema = mongoose.Schema({
     rate: Number,
-    date:Date,
-    comment:String,
+    date: { type: Date , default: Date.now },
     UserId: {
         type: mongoose.Types.ObjectId,
         ref: 'User'
