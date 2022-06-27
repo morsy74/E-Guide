@@ -42,7 +42,7 @@ exports.addTourist = async (req, res, next) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   let tourist = new Tourist(_.pick(req.body,
-    ['name', 'description', 'address', 'workTime', 'rate','price', 'pic', 'lat', 'lng', 'city']));
+    ['name', 'description', 'address', 'workTime','price', 'pic', 'lat', 'lng', 'city']));
   
     await tourist.save();
     res.send(tourist)
@@ -59,7 +59,7 @@ exports.editTourist = async (req, res, next) =>{
     description: req.body.description,
     workTime: req.body.workTime,
     price: req.body.price,
-    picture: req.body.picture,
+    pic: req.body.pic,
     lat: req.body.lat,
     lng: req.body.lng,
     city: req.body.city

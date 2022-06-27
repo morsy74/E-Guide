@@ -13,7 +13,7 @@ const touristPlaceSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    maxLength: 100
+   
   },
   description:{
     type: String
@@ -72,7 +72,6 @@ function validateTourist(tourist){
       address: Joi.string().required(),
       description: Joi.string(),
       workTime: Joi.string().required(),
-      rate:Joi.string().required(),
       price: Joi.string().required(),
       pic: Joi.required(),
       lng: Joi.number().required(),

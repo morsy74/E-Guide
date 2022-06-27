@@ -74,10 +74,10 @@ function validateHotel(hotel){
       roomsNumbers: Joi.number().required(),
       singlePrice: Joi.string().required(),
       doublePrice: Joi.string().required(),
-      pic: Joi.string(),
+      pic: Joi.required(),
       lat: Joi.number().required(),
       lng: Joi.number().required(),
-      city:Joi.objectId().min(20).max(50).required()
+      city:Joi.required()
   });
 
   return schema.validate(hotel);
