@@ -3,10 +3,8 @@ const Joi = require('joi');
 
 
 const reviewSchema = mongoose.Schema({
-  name:String,
   rate: Number,
-  date:Date,
-  comment:String,
+  date: { type: Date , default: Date.now },
   UserId: {
       type: mongoose.Types.ObjectId,
       ref: 'User'
