@@ -51,7 +51,7 @@ exports.postRest = async function (req, res, next) {
     let rest = await Restaurant.findOne({ name: req.body.name, lat: req.body.lat, lng: req.body.lng });
     if (rest) return res.status(400).send('this restaurant is already here');
     rest = new Restaurant(_.pick(req.body,
-        ['name', 'address', 'pic', 'menu', 'workTime', 'cuisineType', 'city', 'lat', 'lng']));
+        ['name', 'address', 'pic', 'menu', 'workTime','in_Favorites', 'cuisineType', 'city', 'lat', 'lng']));
     rest = await rest.save();
     res.send(rest);
     next();
@@ -74,7 +74,8 @@ exports.putRest = async function (req, res, next) {
             menu: req.body.menu,
             lat: req.body.lat,
             lng: req.body.lng,
-            city: req.body.city
+            city: req.body.city,
+            in_Favorites: req.body.in_Favorites
         }
     }, { new: true })
 
