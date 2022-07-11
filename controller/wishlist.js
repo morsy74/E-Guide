@@ -160,7 +160,7 @@ exports.addBusToWishlist = async (req, res, next) => {
     let user = await User.findById(req.params.id);
     if (!user) res.status(404).send('you must login');
     let items = await WishList.findOne({ Bus: req.body.id });
-    if (items) return res.status(400).send('This item is already in your wishlist');
+    if (items) return res.status(200).send('This item is already in your wishlist');
     let wishlist = new WishList({
         UserId: req.params.id,
         Bus: req.body.id
@@ -183,7 +183,8 @@ exports.getWishlist = async (req, res, next) => {
     let list = await WishList.find({ UserId: req.params.id })
         .populate('Restaurants')
         .populate('Cafes')
-        .populate('Hotels');
+        .populate('Hotels')
+        .populate('City');
     res
         .status(200)
         .json({
