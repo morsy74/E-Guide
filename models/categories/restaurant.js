@@ -33,7 +33,7 @@ const restaurantSchema = mongoose.Schema({
     lng: Number,
     comment: [Object],
     review:[reviewSchema],
-    offer: [],
+    //offer: [],
        city: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'City'
@@ -49,7 +49,7 @@ restaurantSchema.set('toJSON', {
 });
 
 const Restaurant = mongoose.model('Restaurant', restaurantSchema);
-
+/*
 offerSchema = mongoose.Schema({
     name: String,
     restaurant: restaurantSchema,
@@ -57,14 +57,14 @@ offerSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }
-});
+});*/
 
 
 
 
 
 
-const Offer = mongoose.model('Offer', offerSchema);
+//const Offer = mongoose.model('Offer', offerSchema);
 
 function validateRestaurant(restaurant) {
 
@@ -79,7 +79,7 @@ function validateRestaurant(restaurant) {
         lat: Joi.number().required(),
         lng: Joi.number().required(),
         city: Joi.required(),
-        offer: Joi.string(),
+       // offer: Joi.string(),
         
     });
 
@@ -87,5 +87,5 @@ function validateRestaurant(restaurant) {
 }
 
 exports.Restaurant = Restaurant;
-exports.Offer = Offer;
+//exports.Offer = Offer;
 exports.validateRestaurant = validateRestaurant;
