@@ -7,13 +7,12 @@ const { User, validateUser } = require('../../models/user/user');
 exports.googleAuth = async (req, res, next) => {
   const user = await User.findOne(req.user);
   const token = user.generateAuthToken();
-  user.google.token = token;
   await user.save();
   userBack = {
     "id": user.id,
     "name": user.google.name,
     "email": user.google.email,
-    "token": user.google.token
+    "token": token
   }
   res.status(200).header('x-auth-token', token).json({
     "status": true,

@@ -28,13 +28,12 @@ exports.login = async (req, res, next) => {
   });
 
   const token = user.generateAuthToken();
-  user.local.token = token;
-  await user.save();
+  
   const userBack = {
     "id": user.id,
     "name": user.local.name,
     "email": user.local.email,
-    "token": user.local.token
+    "token": token
   }
   res.status(200).header('x-auth-token', token).json({
     "status": true,

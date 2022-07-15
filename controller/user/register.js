@@ -28,34 +28,25 @@ exports.register =  async (req, res, next) =>{
       password: req.body.password
     }
   });
-  const confirmPassword = req.body.confirmPassword;
-  if (confirmPassword === req.body.password) {
+  
     const salt = await bcrypt.genSalt(10);
     hashPassword = await bcrypt.hash(user.local.password, salt);
     user.local.password = hashPassword;
     await user.save();
 
     const token = user.generateAuthToken();
-    user.local.token = token;
-    await user.save();
 
     const userBack = {
       "id": user.id,
       "name": user.local.name,
       "email": user.local.email,
-      "token": user.local.token
+      "token": token
     }
     res.status(200).header('x-auth-token', token).json({
       "status": true,
       "message": "Registration done successfully",
       "data": userBack
     });
-  }
-  else return res.status(200).json({
-    "status": false,
-    "message": "The confirm password is not matches the password",
-    "data": null
-  })
 
   next();
 };

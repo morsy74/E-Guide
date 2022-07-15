@@ -24,9 +24,6 @@ const userSchema = new Schema({
       type: String,
       minLength: 5,
       maxLength: 1024
-    },
-    token: {
-      type: String,
     },   
     isAdmin: Boolean
   },
@@ -41,9 +38,6 @@ const userSchema = new Schema({
       type: String,
       lowercase: true
     },
-    token:{
-      type: String
-    },
     photo: {
       type: String
     }
@@ -56,9 +50,6 @@ const userSchema = new Schema({
       type: String,
       lowercase: true
     },
-    token:{
-      type: String
-    }
   },
   
 });
@@ -75,7 +66,6 @@ function validateUser(user){
     name: Joi.string().min(5).max(50).required(),
     email: Joi.string().min(5).max(255).required().email(),
     password: Joi.string().min(5).max(255).required(),
-    confirmPassword: Joi.string().min(5).max(255).required()
   }); 
   return schema.validate(user);
 };

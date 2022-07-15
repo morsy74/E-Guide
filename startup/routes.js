@@ -6,6 +6,7 @@ const register = require('../routes/user/register');
 const login = require('../routes/user/login');
 const forgotPassword = require('../routes/user/forgotPassword');
 const resetPassword = require('../routes/user/resetPassword');
+const changePassword = require('../routes/user/changePassword');
 const profile = require('../routes/profile');
 const city = require("../routes/categories/city");
 const restaurant = require('../routes/categories/restaurant');
@@ -28,6 +29,7 @@ module.exports = function(app){
   app.use('/api/user/login', login);
   app.use("/api/user", forgotPassword);
   app.use("/api/user", resetPassword);
+  app.use("/api/user", changePassword);
   app.use("/api/user", profile);
   app.use('/api/clubs', clubs);
   app.use('/api/hotels', hotels);
