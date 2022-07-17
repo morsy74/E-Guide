@@ -4,6 +4,7 @@ const _ = require('lodash');
 const mongoose = require('mongoose');
 const { Hotel, validate } = require('../../models/categories/hotel');
 const {User}= require('../../models/user/user');
+const { Owner } = require('../../models/owner/owner');
 
 exports.showAllHotels = async (req, res, next) => {
   const hotel = await Hotel.find().sort('name').select("-comment");
@@ -41,19 +42,36 @@ exports.addHotel = async (req, res, next) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  let hotel = new Hotel(_.pick(req.body,
-    ['name', 'address', 'roomsNumbers', 'singlePrice', 'doublePrice', 'pic', 'lat', 'lng', 'city']));
-  
+let hotel= new Hotel({
+  name:req.body.name,
+  address:req.body.address,
+  pic:req.body.pic,
+  singlePrice:req.body.singlePrice,
+  doublePrice:req.body.doublePrice,
+  inWishList:false,
+  roomsNumbers:req.body.roomsNumbers,
+  city:req.body.city,
+  lat:req.body.lat,
+  lng:req.body.lng,
+  owner:req.owner._id
+})
     await hotel.save();
     res.send(hotel)
     next();
 };
 
 exports.editHotel = async (req, res, next) =>{
+
+  let owner = await Owner.findById(req.owner._id)
+  if(!owner)return res.send('you are not owner of item')
+  
+  let hotel= await Hotel.findOne({ _id:req.params.id , owner:req.owner._id});
+  if (!hotel) return res.status(404).send('Not found check your id');
+
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const hotel = await Hotel.findByIdAndUpdate(req.params.id, {
+   hotel = await Hotel.findByIdAndUpdate(req.params.id, {
     name: req.body.name,
     address: req.body.address,
     roomsNumber: req.body.roomsNumber,
@@ -65,18 +83,27 @@ exports.editHotel = async (req, res, next) =>{
     city: req.body.city
   }, {new: true});
 
-  if (!hotel) return res.status(404).send("The hotel with the given ID is not found!..");
+  //if (!hotel) return res.status(404).send("The hotel with the given ID is not found!..");
   res.send(hotel);
   next();
 };
 
 exports.deleteHotel = async (req, res, next) => {
-  const hotel = await Hotel.findByIdAndRemove(req.params.id);
+  if(req.user){
+    if(req.user.local.isAdmin){
 
-  if (!hotel) return res.status(404).send('The hotel with the given ID was not found.');
-  res.send(hotel);
-  next();
-};
+        const hotel = await Hotel.findByIdAndRemove(req.params.id);
+        if (!hotel) return res.status(404).send('not found check your id')
+        res.send(hotel);
+    }
+}
+else{
+const hotel = await Hotel.findOneAndDelete({_id:req.params.id, owner:req.owner.id});
+        if (!hotel) return res.status(404).send('not found check your id')
+        res.send(hotel);
+    }
+}
+
 
 exports.addComment = async (req,res, next) => {
   const hotel = await Hotel.findById(req.params.hotelId);
@@ -158,4 +185,42 @@ exports.addHotelReview= async(req,res,next)=>{
   "data": review
 })
 
+}
+
+
+
+
+
+exports.booking = async (req, res, next) => {
+  const user = await User.findById(req.user._id);
+  const hotel = await Hotel.findById(req.params.id);
+  const booking = hotel.booking;
+
+  let userName = function () {
+      let localName = user.local.name;
+      if (localName == null) 
+      return user.google.name;
+      else return localName
+  }
+      let result = booking.find((book) => JSON.stringify(book.UserId) ==  JSON.stringify(req.user._id)) //req.body.userId})
+
+      if (result) {
+  return res.send('cannot booking again');
+  } else {
+      booking.push({
+          "name": userName(),
+          "UserId": req.user._id,
+          "price": req.body.price,
+          "date": req.body.Date,
+          "payed":true
+      })
+      
+      await hotel.save();
+  }
+
+  res.status(200).json({
+      "status": true,
+      "message": "booked success",
+      "data": booking
+  })
 }

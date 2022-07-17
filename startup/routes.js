@@ -21,6 +21,14 @@ const home = require('../routes/home');
 const search = require('../routes/search');
 const nearby = require('../routes/nearby');
 
+//work with owner
+
+const ownerRegister = require('../routes/owner/register');
+const ownerLogin = require('../routes/owner/login');
+const ownerForgotPassword = require('../routes/owner/forgotPassword');
+const ownerResetPassword = require('../routes/owner/resetPassword');
+const ownerChangePassword = require('../routes/owner/changePassword');
+
 module.exports = function(app){
   app.use(express.json());
   app.use(helmet());
@@ -39,10 +47,19 @@ module.exports = function(app){
   app.use('/api/cafe',cafe);
   app.use("/api/train",train);
   app.use("/api/bus",bus);
-  app.use("/api/user",wishlist);
+  app.use("/api/wishlist",wishlist);
   app.use("/api/home",home);
   app.use("/api/search",search);
   app.use("/api/nearby",nearby);
+
+  //work with owner 
+  app.use('/api/owner/register', ownerRegister);
+  app.use('/api/owner/login', ownerLogin);
+  app.use("/api/owner/forgetPassword", ownerForgotPassword);
+  app.use("/api/owner/verifyCode/resetPassword", ownerResetPassword);
+  app.use("/api/owner/changePassword/:id", ownerChangePassword);
+
+
   
   if (app.get('env') === 'development') {
     app.use(logging);

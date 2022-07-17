@@ -10,6 +10,20 @@ reviewSchema=mongoose.Schema({
   }
 })
 
+const bookingSchema = mongoose.Schema({
+    payed:{
+    type:Boolean,
+    default:false
+    },
+    price: Number,
+    date:String,
+    name:String,
+    UserId: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
+    }
+});
+
 const hotelSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -49,11 +63,23 @@ const hotelSchema = new mongoose.Schema({
   },
   comment : [Object],
   review:[reviewSchema],
+  booking: [bookingSchema],
+  inWishList: {
+    type: Boolean,
+    default:false
+  },
+
   city: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'city',
     required: true
-  }
+  },
+  
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+
 });
 
 hotelSchema.set('toJSON', {

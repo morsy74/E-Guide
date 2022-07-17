@@ -1,17 +1,18 @@
 const express = require('express');
 const route = express.Router();
 const wishlist= require('../controller/wishlist');
+const{auth}=require('../middleware/auth')
 
-route.post('/:id/Restaurant',wishlist.addRestaurantToWishlist); 
-route.post('/:id/Cafes',wishlist.addCafeToWishlist); 
-route.post('/:id/Bus',wishlist.addBusToWishlist); 
-route.post('/:id/City',wishlist.addCityToWishlist);
-route.post('/:id/Club',wishlist.addClubToWishlist);
-route.post('/:id/Hotel',wishlist.addHotelToWishlist); 
-route.post('/:id/TouristPlace',wishlist.addTouristPlaceToWishlist); 
-route.post('/:id/Train',wishlist.addTrainToWishlist); 
-route.delete('/WishList',wishlist.deleteFromWishlist); 
+route.post('/Restaurant',auth,wishlist.addRestaurantToWishlist); 
+route.post('/Club',auth,wishlist.addClubToWishlist);
+route.post('/Hotel',auth,wishlist.addHotelToWishlist); 
+route.post('/TouristPlace',auth,wishlist.addTouristPlaceToWishlist); 
+route.delete('/WishList',auth,wishlist.deleteFromWishlist); 
+route.get('/wishlist',auth,wishlist.getWishlist); 
+route.post('/Cafes',auth,wishlist.addCafeToWishlist); 
 
-route.get('/:id/wishlist',wishlist.getWishlist); 
+//route.post('/Train',auth,wishlist.addTrainToWishlist); 
+//route.post('/Bus',auth,wishlist.addBusToWishlist); 
+//route.post('/City',auth,wishlist.addCityToWishlist);
 
 module.exports=route;

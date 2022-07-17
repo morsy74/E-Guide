@@ -12,6 +12,20 @@ const reviewSchema = mongoose.Schema({
     }
 });
 
+const bookingSchema = mongoose.Schema({
+    payed:{
+    type:Boolean,
+    default:false
+    },
+    price: Number,
+    date:String,
+    name:String,
+    UserId: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
+    }
+});
+
 
 const restaurantSchema = mongoose.Schema({
     name: String,
@@ -21,7 +35,7 @@ const restaurantSchema = mongoose.Schema({
       default:0
     },
 
-    in_Favorites: {
+    inWishList: {
         type: Boolean,
         default:false
       },
@@ -33,11 +47,16 @@ const restaurantSchema = mongoose.Schema({
     lng: Number,
     comment: [Object],
     review:[reviewSchema],
-    //offer: [],
+    booking: [bookingSchema],
        city: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'City'
-    }
+    },
+    
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 restaurantSchema.set('toJSON', {
@@ -49,22 +68,6 @@ restaurantSchema.set('toJSON', {
 });
 
 const Restaurant = mongoose.model('Restaurant', restaurantSchema);
-/*
-offerSchema = mongoose.Schema({
-    name: String,
-    restaurant: restaurantSchema,
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }
-});*/
-
-
-
-
-
-
-//const Offer = mongoose.model('Offer', offerSchema);
 
 function validateRestaurant(restaurant) {
 
@@ -79,7 +82,6 @@ function validateRestaurant(restaurant) {
         lat: Joi.number().required(),
         lng: Joi.number().required(),
         city: Joi.required(),
-       // offer: Joi.string(),
         
     });
 
