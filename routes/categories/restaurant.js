@@ -3,6 +3,7 @@ const express= require('express');
 const router=express.Router();
 const{auth}=require('../../middleware/auth')
 const{owner}=require('../../middleware/owner');
+const {admin} = require('../../middleware/admin');
 router.get('/getRestaurants',rest.getRest);
 router.get('/getRestaurantById/:id',rest.getRestById);
 router.get('/city/:cityId',rest.getRestByCityId);
@@ -16,7 +17,11 @@ router.post('/booking/:id',auth,rest.booking);
 router.post('/',owner,rest.postRest);
 router.put('/:id',owner,rest.putRest);
 router.delete('/:id',owner,rest.deleteRest);
-router.delete('/admin/:id',auth,rest.deleteRest);
+
+//admin
+router.post('/admin',[auth, admin],rest.postRest);
+router.put('/admin/:id',[auth, admin],rest.putRest);
+router.delete('/admin/:id', [auth, admin], rest.deleteRest);
 
 
 module.exports=router;
